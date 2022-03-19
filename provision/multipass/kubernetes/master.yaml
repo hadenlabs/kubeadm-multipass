@@ -15,7 +15,6 @@ packages:
   - lsb-release
   - dpkg-dev
   - software-properties-common
-  - nfs-server
 
 manage_resolv_conf: true
 
@@ -89,5 +88,5 @@ runcmd:
   - cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   - chown $(id -u):$(id -g) $HOME/.kube/config
   - kubeadm init --pod-network-cidr=10.1.0.0/16
-  - systemctl restart kubelet
+
   - systemctl restart containerd
