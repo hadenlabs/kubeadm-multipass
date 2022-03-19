@@ -67,6 +67,7 @@ tasks:
         vars:
           MULTIPASS_LAUNCH_NAME: k8s-master
       - cmd: echo "Now deploying the worker nodes"
+      - cmd: multipass mount {{.MOUNT_PATH_K8S_LOCAL}}/Volumes/Data/mnt/k8s.local {{.MULTIPASS_LAUNCH_NAME}}:/data
     vars:
       MULTIPASS_LAUNCH_NAME: k8s-master
 
@@ -84,5 +85,6 @@ tasks:
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo sh ./kubeadm_join.sh'
       - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl label node {{.MULTIPASS_LAUNCH_NAME}} node-role.kubernetes.io/node=
       - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl get nodes
+      - cmd: multipass mount {{.MOUNT_PATH_K8S_LOCAL}}/Volumes/Data/mnt/k8s.local {{.MULTIPASS_LAUNCH_NAME}}:/data
     vars:
       MULTIPASS_LAUNCH_NAME: k8s-node
