@@ -1,6 +1,6 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Examples BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Examples KubeadmMultipass -->
 
 <!-- Label: Examples -->
 <!-- Include: ./../disclaimer.md -->

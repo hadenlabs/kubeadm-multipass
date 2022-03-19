@@ -1,8 +1,8 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Components BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Components KubeadmMultipass -->
 
-<!-- Label: BaseTemplate -->
+<!-- Label: KubeadmMultipass -->
 <!-- Label: Project -->
 <!-- Label: Components -->
 <!-- Include: disclaimer.md -->

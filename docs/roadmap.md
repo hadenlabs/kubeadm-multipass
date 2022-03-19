@@ -1,6 +1,6 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Roadmap BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Roadmap KubeadmMultipass -->
 
 <!-- Label: Roadmap -->
 <!-- Include: disclaimer.md -->
@@ -30,7 +30,7 @@
 
 The Roadmap is a list of all the things we're working on for the year.
 
-You can see the corresponding projects on [base-template](https://github.com/hadenlabs/base-template)
+You can see the corresponding projects on [kubeadm-multipass](https://github.com/hadenlabs/kubeadm-multipass)
 
 ## Legend
 

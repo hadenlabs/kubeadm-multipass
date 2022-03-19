@@ -1,8 +1,8 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Env Vars BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Env Vars KubeadmMultipass -->
 
-<!-- Label: BaseTemplate -->
+<!-- Label: KubeadmMultipass -->
 <!-- Label: Project -->
 <!-- Label: Env Vars -->
 <!-- Include: disclaimer.md -->
