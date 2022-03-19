@@ -13,6 +13,7 @@ includes:
   prettier: ./provision/task/prettier.yml
   sonar: ./provision/task/sonar.yml
   diagrams: ./provision/diagrams/Taskfile.yml
+  multipass: ./provision/task/multipass.yml
 
 env:
   DOCKER:
@@ -28,6 +29,12 @@ env:
   README_YAML: provision/generators/README.yaml
   README_TEMPLATE: provision/templates/README.tpl.md
   README_INCLUDES: file://
+  BUILD_PATH:
+    sh: echo build
+  K8S_BUILD_PATH:
+    sh: echo {{.BUILD_PATH}}/k8s
+  KUBECONFIG:
+    sh: echo {{.K8S_BUILD_PATH}}/kubeconfig.yaml
 
 dotenv:
   - .env
@@ -35,6 +42,9 @@ dotenv:
 vars:
   PROJECT_NAME: kubeadm-multipass
   ORGANIZATION: hadenlabs
+  DOCKER_ORGANIZATION: hadenlabs
+  DOCKER_PLATFORMS: linux/amd64,linux/arm64
+  DOCKER_IMAGE_NAME: kubeadm-multipass
   REVIEWERS: luismayta
   PYTHON_VERSION: 3.9.2
   NODE_VERSION: 16.6.1
@@ -112,3 +122,4 @@ tasks:
     desc: Setup environment of project
     cmds:
       - task: python:environment
+      - cmd: mkdir -p {{.K8S_BUILD_PATH}}
