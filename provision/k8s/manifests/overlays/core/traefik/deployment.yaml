@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-ingress-controller
+  labels:
+    k8s-app: traefik-ingress-lb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: traefik-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      containers:
+        - name: traefik-ingress-lb
+          image: traefik:v2.6
+          imagePullPolicy: IfNotPresent
+          args:
+            - '--accesslog'
+            - '--log.level=DEBUG'
+            - '--api=true'
+            - '--api.dashboard=true'
+            - '--api.insecure=true'
+            - '--entrypoints.tcpep.address=:8000'
+            - '--entrypoints.udpep.address=:9000/udp'
+            - '--entrypoints.http.address=:80/tcp'
+            - '--entrypoints.http.http.redirections.entryPoint.to=https'
+            - '--entrypoints.http.http.redirections.entryPoint.scheme=https'
+            - '--entrypoints.https.address=:443/tcp'
+            - '--providers.kubernetescrd'
+            - '--providers.kubernetesingress=true'
+            - '--accesslog.filters.statuscodes=200,300-302,400-405'
+          ports:
+            - name: http
+              containerPort: 80
+            - name: admin
+              containerPort: 8080
+            - name: https
+              containerPort: 443
+            - name: tcpep
+              containerPort: 8000
+            - name: udpep
+              containerPort: 9000
