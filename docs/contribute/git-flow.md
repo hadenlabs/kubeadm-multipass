@@ -15,7 +15,7 @@ To contribute to kubeadm-multipass project on [GitHub](https://github.com/hadenl
 
 ## Getting started
 
-To follow the instructions in this guide and start contributing to kubeadm-multipass project on Gitlab:
+To follow the instructions in this guide and start contributing to kubeadm-multipass project on Github:
 
 1.  **Fork** the repo on GitHub
 2.  **Clone** the project to your own machine
