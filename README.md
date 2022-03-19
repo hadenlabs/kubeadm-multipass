@@ -22,11 +22,24 @@ kubeadm-multipass for project
 
 This is a list of plugins that need to be installed previously to enjoy all the goodies of this configuration:
 
-- [gomplate](https://github.com/hairyhenderson/gomplate)
+- [Multipass](https://multipass.run)
+- [kubectl](https://kubernetes.io/docs/tasks/tools)
+- [kustomize](https://kustomize.io)
+- [Docker](https://www.docker.com)
 - [python](https://www.python.org)
 - [taskfile](https://github.com/go-task/task)
 
-## Usage
+## Examples
+
+<!-- Space: Projects -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Examples KubeadmMultipass -->
+
+<!-- Label: Examples -->
+<!-- Include: ./../disclaimer.md -->
+<!-- Include: ac:toc -->
+
+### common
 
 ## Help
 

@@ -1,0 +1,32 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-http
+spec:
+  entryPoints:
+    - http
+  routes:
+    - match: Host(`whoami.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: whoami
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-https
+spec:
+  entryPoints:
+    - https
+  routes:
+    - match: Host(`whoami.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: whoami
+          port: 80
+  tls:
+    secretName: traefik-tls-cert

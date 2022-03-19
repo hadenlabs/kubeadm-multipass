@@ -1,0 +1,93 @@
+#cloud-config
+output: { all: '| tee -a /var/log/cloud-init-output.log' }
+
+# package_upgrade: true
+packages:
+  # Update the apt package index and install packages needed to use the Docker and Kubernetes apt repositories over HTTPS
+  - git
+  - curl
+  - wget
+  - vim
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - dpkg-dev
+  - software-properties-common
+  - nfs-server
+
+manage_resolv_conf: true
+
+resolv_conf:
+  nameservers: ['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1']
+
+#cloud-config
+package_update: true
+
+# Let iptables see bridged traffic
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic
+write_files:
+  - path: /etc/modules-load.d/k8s.conf
+    content: |
+      br_netfilter
+
+  - path: /etc/sysctl.d/k8s.conf
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+
+    # Containerd
+    # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd
+
+  - path: /etc/modules-load.d/containerd.conf
+    content: |
+      overlay
+      br_netfilter
+
+    # Setup required sysctl params, these persist across reboots.
+  - path: /etc/sysctl.d/99-kubernetes-cri.conf
+    content: |
+      net.bridge.bridge-nf-call-iptables  = 1
+      net.ipv4.ip_forward                 = 1
+      net.bridge.bridge-nf-call-ip6tables = 1
+
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
+
+# create the docker group
+groups:
+  - docker
+
+# Add default auto created user to docker group
+system_info:
+  default_user:
+    groups: [docker]
+
+runcmd:
+  - modprobe br_netfilter # Load br_netfilter module.
+  - modprobe overlay
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg # Add Docker’s official GPG key
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list
+  - curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+  - apt-get update -y # Update apt package index
+  - apt-get install -y docker-ce docker-ce-cli containerd.io kubelet kubeadm kubectl # Install Docker Engine, kubelet, kubeadm and kubectl
+  - apt-mark hold kubelet kubeadm kubectl # pin kubelet kubeadm kubectl version
+  - sysctl -w vm.max_map_count=262144
+  - sysctl --system # Reload settings from all system configuration files to take iptables configuration
+  - mkdir -p /etc/containerd
+  - rm -rf /etc/containerd/config.toml
+  - containerd config default | tee /etc/containerd/config.toml
+  - swapoff -a
+  - sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+  - sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+  - mkdir -p $HOME/.kube
+  - cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  - chown $(id -u):$(id -g) $HOME/.kube/config
+  - kubeadm init --pod-network-cidr=10.1.0.0/16
+  - systemctl restart kubelet
+  - systemctl restart containerd

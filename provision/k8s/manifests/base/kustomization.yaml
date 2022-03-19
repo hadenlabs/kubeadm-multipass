@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - calico-cm.yaml
+  - calico-crd.yaml
+  - traefik-crd.yaml
+  - traefik-deploy.yaml
+  - traefik-rbac.yaml
+  - traefik-sa.yaml
+  - traefik-secrets.yaml
+  - traefik-svc.yaml
+  - traefik-ui-ingressroute.yaml

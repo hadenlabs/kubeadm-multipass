@@ -37,6 +37,8 @@ repos:
       - id: check-json
       - id: check-xml
       - id: check-yaml
+        args:
+          - --allow-multiple-documents
       - id: check-byte-order-marker
       - id: check-ast
       - id: debug-statements
@@ -62,6 +64,7 @@ repos:
           )$
         args:
           - --exclude=SC1072,SC1073,SC2068
+      - id: validate-toml
       - id: todocheck
       - id: gitleaks
         args:
@@ -71,3 +74,18 @@ repos:
       - id: hadolint
         args:
           - --config=.ci/linters/.hadolint.yaml
+  - repo: https://github.com/bridgecrewio/checkov.git
+    rev: '2.0.975'
+    hooks:
+      - id: checkov
+        args:
+          - --config-file=.ci/linters/checkov.yml
+
+  - repo: https://github.com/stackrox/kube-linter
+    rev: 0.2.5
+    hooks:
+      - id: kube-linter
+        name: kube-linter
+        args:
+          - lint
+          - --config=.ci/linters/kube-linter.yaml
