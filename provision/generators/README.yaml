@@ -44,7 +44,10 @@ requirements: |-
 
   This is a list of plugins that need to be installed previously to enjoy all the goodies of this configuration:
 
-  - [gomplate](https://github.com/hairyhenderson/gomplate)
+  - [Multipass](https://multipass.run)
+  - [kubectl](https://kubernetes.io/docs/tasks/tools)
+  - [kustomize](https://kustomize.io)
+  - [Docker](https://www.docker.com)
   - [python](https://www.python.org)
   - [taskfile](https://github.com/go-task/task)
 
@@ -53,5 +56,13 @@ description: |-
 
   kubeadm-multipass for project
 
-usages:
-  - docs/usage.md
+# How to use this project
+usage: |-
+  ```bash
+  task setup
+  task multipass:launch:k8s:master
+  task multipass:launch:k8s:node
+  ```
+
+examples:
+  - 'docs/examples/common.md'
