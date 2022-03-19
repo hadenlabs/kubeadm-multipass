@@ -370,6 +370,7 @@ zsdoc/data
 # End of https://www.toptal.com/developers/gitignore/api/python,node,go,zsh,sonar,linux
 # custom git ignore files
 *.lock.hcl
+*.out
 .scannerwork
 .secrets
 .task
