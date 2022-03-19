@@ -1,8 +1,8 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Releasing BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Releasing KubeadmMultipass -->
 
-<!-- Label: BaseTemplate -->
+<!-- Label: KubeadmMultipass -->
 <!-- Label: Project -->
 <!-- Label: Releasing -->
 <!-- Include: disclaimer.md -->
@@ -12,7 +12,7 @@
 
 ## Bump a new version
 
-Make a new version of base-template in the following steps:
+Make a new version of kubeadm-multipass in the following steps:
 
 ### Generate version major
 

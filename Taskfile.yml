@@ -33,7 +33,7 @@ dotenv:
   - .env
 
 vars:
-  PROJECT_NAME: base-template
+  PROJECT_NAME: kubeadm-multipass
   ORGANIZATION: hadenlabs
   REVIEWERS: luismayta
   PYTHON_VERSION: 3.9.2
@@ -47,6 +47,7 @@ vars:
     .secrets
     TMP_CHANGELOG.md
     .task
+    *.out
     *.lock.hcl
 
 tasks:

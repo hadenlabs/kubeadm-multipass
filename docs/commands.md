@@ -1,8 +1,8 @@
 <!-- Space: Projects -->
-<!-- Parent: BaseTemplate -->
-<!-- Title: Commands BaseTemplate -->
+<!-- Parent: KubeadmMultipass -->
+<!-- Title: Commands KubeadmMultipass -->
 
-<!-- Label: BaseTemplate -->
+<!-- Label: KubeadmMultipass -->
 <!-- Label: Project -->
 <!-- Label: Commands -->
 <!-- Include: disclaimer.md -->

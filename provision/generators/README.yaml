@@ -5,14 +5,10 @@
 #
 
 # Name of this project
-name: base-template
+name: kubeadm-multipass
 
 email:
   support: support@hadenlabs.com
-
-confluence:
-  space: Projects
-  title: BaseTemplate
 
 # Logo for this project
 #logo: docs/logo.png
@@ -21,22 +17,19 @@ confluence:
 license: 'LGPL-3.0'
 
 # Canonical GitHub repo
-github_repo: hadenlabs/base-template
+github_repo: hadenlabs/kubeadm-multipass
 
 # Badges to display
 badges:
   - name: Latest Release
-    image: https://img.shields.io/github/release/hadenlabs/base-template
-    url: https://github.com/hadenlabs/base-template/releases
+    image: https://img.shields.io/github/release/hadenlabs/kubeadm-multipass
+    url: https://github.com/hadenlabs/kubeadm-multipass/releases
   - name: Lint
-    image: https://img.shields.io/github/workflow/status/hadenlabs/base-template/lint-code
-    url: https://github.com/hadenlabs/base-template/actions?workflow=lint-code
+    image: https://img.shields.io/github/workflow/status/hadenlabs/kubeadm-multipass/lint-code
+    url: https://github.com/hadenlabs/kubeadm-multipass/actions?workflow=lint-code
   - name: CI
-    image: https://img.shields.io/github/workflow/status/hadenlabs/base-template/ci
-    url: https://github.com/hadenlabs/base-template/actions?workflow=ci
-  - name: Test
-    image: https://img.shields.io/github/workflow/status/hadenlabs/base-template/test
-    url: https://github.com/hadenlabs/base-template/actions?workflow=test
+    image: https://img.shields.io/github/workflow/status/hadenlabs/kubeadm-multipass/ci
+    url: https://github.com/hadenlabs/kubeadm-multipass/actions?workflow=ci
   - name: pre-commit
     image: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
     url: https://github.com/pre-commit/pre-commit
@@ -58,13 +51,7 @@ requirements: |-
 # Short description of this project
 description: |-
 
-  base-template for project
-
-  ### Replace name project to New Project
-
-  ```bash
-    agr 'base-template' 'new-project'
-  ```
+  kubeadm-multipass for project
 
 usages:
   - docs/usage.md
