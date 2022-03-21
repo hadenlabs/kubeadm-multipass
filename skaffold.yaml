@@ -1,0 +1,24 @@
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: infrastructure
+deploy:
+  kustomize:
+    paths:
+      - provision/k8s/manifests/base
+profiles:
+  - name: core
+    deploy:
+      kustomize:
+        paths:
+          - provision/k8s/manifests/overlays/core
+  - name: metallb
+    deploy:
+      kustomize:
+        paths:
+          - provision/k8s/manifests/overlays/metallb
+  - name: whoami
+    deploy:
+      kustomize:
+        paths:
+          - provision/k8s/manifests/overlays/whoami
