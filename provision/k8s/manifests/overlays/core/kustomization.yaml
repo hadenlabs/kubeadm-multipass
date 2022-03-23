@@ -5,3 +5,5 @@ resources:
   - calico
   - metallb
   - traefik
+  - grafana
+  - loki
