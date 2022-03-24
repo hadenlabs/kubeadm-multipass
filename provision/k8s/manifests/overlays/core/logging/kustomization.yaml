@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   - sa.yaml
   - rbac.yaml
-  - deployment.yaml
   - configmap.yaml
+  - ds.yaml
 
 namespace: logging

@@ -4,28 +4,28 @@ kind: DaemonSet
 metadata:
   name: fluent-bit
   labels:
+    app.kubernetes.io/name: fluentbit
     k8s-app: fluent-bit-logging
+    name: fluent-bit
     version: v1
     kubernetes.io/cluster-service: 'true'
 spec:
   selector:
     matchLabels:
-      k8s-app: fluent-bit-logging
+      name: fluent-bit
   template:
     metadata:
       labels:
+        name: fluent-bit
         k8s-app: fluent-bit-logging
         version: v1
         kubernetes.io/cluster-service: 'true'
-      annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/port: '2020'
-        prometheus.io/path: /api/v1/metrics/prometheus
     spec:
+      serviceAccountName: fluent-bit
       containers:
         - name: fluent-bit
-          image: fluent/fluent-bit
           imagePullPolicy: Always
+          image: fluent/fluent-bit:1.9.0
           ports:
             - containerPort: 2020
             - containerPort: 24224
@@ -33,30 +33,25 @@ spec:
             - configMapRef:
                 name: fluent-bit-environment
           volumeMounts:
+            - name: config
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
+            - name: config
+              mountPath: /fluent-bit/etc/custom_parsers.conf
+              subPath: custom_parsers.conf
             - name: varlog
               mountPath: /var/log
             - name: varlibdockercontainers
               mountPath: /var/lib/docker/containers
               readOnly: true
-            - name: fluent-bit-config
-              mountPath: /fluent-bit/etc/
-      terminationGracePeriodSeconds: 10
       volumes:
+        - name: config
+          configMap:
+            defaultMode: 420
+            name: fluent-bit-config
         - name: varlog
           hostPath:
             path: /var/log
         - name: varlibdockercontainers
           hostPath:
             path: /var/lib/docker/containers
-        - name: fluent-bit-config
-          configMap:
-            name: fluent-bit-config
-      serviceAccountName: fluent-bit
-      tolerations:
-        - key: node-role.kubernetes.io/master
-          operator: Exists
-          effect: NoSchedule
-        - operator: 'Exists'
-          effect: 'NoExecute'
-        - operator: 'Exists'
-          effect: 'NoSchedule'
