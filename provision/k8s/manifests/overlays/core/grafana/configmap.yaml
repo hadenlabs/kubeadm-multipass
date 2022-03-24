@@ -12,10 +12,12 @@ data:
         type: loki
         access: proxy
         orgId: 1
-        url: http://loki:3100
+        url: http://loki.loki.svc.cluster.local:3100
+        editable: true
         basicAuth: true
         basicAuthUser: ${LOKI_USER}
         jsonData:
+          tlsSkipVerify: true
           maxLines: 5000
           httpHeaderName1: X-Scope-OrgID
         secureJsonData:
@@ -23,7 +25,7 @@ data:
           basicAuthPassword: ${LOKI_PASSWORD}
         isDefault: true
         version: 1
-        editable: true
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -36,6 +38,8 @@ data:
   GF_SECURITY_ADMIN_USER: 'admin'
   GF_SECURITY_ADMIN_PASSWORD: 'password'
   GF_USERS_ALLOW_SIGN_UP: 'False'
+  GF_LOG_FILTERS: rendering:debug
+
   # loki
   LOKI_ORG_ID: '1'
   LOKI_USER: 'loki'
