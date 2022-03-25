@@ -124,6 +124,4 @@ metadata:
     app: fluent-bit-environment
 data:
   FLUENT_LOKI_HOST: 'loki.loki.svc.cluster.local'
-  FLUENT_LOKI_USER: 'loki'
-  FLUENT_LOKI_PASS: 'v2ZL7Xun7UmA'
   FLUENT_LOKI_ORG_ID: '1'

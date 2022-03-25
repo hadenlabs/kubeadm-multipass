@@ -32,6 +32,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: fluent-bit-environment
+            - secretRef:
+                name: fluent-bit-secret
           volumeMounts:
             - name: fluent-bit-config
               mountPath: /fluent-bit/etc/
