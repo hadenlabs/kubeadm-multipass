@@ -57,7 +57,7 @@ data:
         http_passwd             ${FLUENT_LOKI_PASS}
         tenant_id               ${FLUENT_LOKI_ORG_ID}
         match                   *
-        labels                  job=fluentbit, pod=$kubernetes['pod_name'], app=$kubernetes['labels']['app'], namespace=$kubernetes['labels']['namespace'], environment=$kubernetes['labels']['environment']
+        labels                  job=fluentbit, pod=$kubernetes['pod_name'], app=$kubernetes['labels']['app'], namespace=$kubernetes['namespace_name'], environment=$kubernetes['labels']['environment']
         label_keys              $stream
         auto_kubernetes_labels  off
   parsers.conf: |
