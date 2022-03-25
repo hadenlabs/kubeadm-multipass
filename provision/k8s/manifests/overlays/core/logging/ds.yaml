@@ -33,21 +33,16 @@ spec:
             - configMapRef:
                 name: fluent-bit-environment
           volumeMounts:
-            - name: config
-              mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: fluent-bit.conf
-            - name: config
-              mountPath: /fluent-bit/etc/custom_parsers.conf
-              subPath: custom_parsers.conf
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc/
             - name: varlog
               mountPath: /var/log
             - name: varlibdockercontainers
               mountPath: /var/lib/docker/containers
               readOnly: true
       volumes:
-        - name: config
+        - name: fluent-bit-config
           configMap:
-            defaultMode: 420
             name: fluent-bit-config
         - name: varlog
           hostPath:
