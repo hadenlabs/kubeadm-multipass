@@ -24,7 +24,7 @@ data:
     [INPUT]
         Name              tail
         Tag               kube.*
-        Path              /var/log/containers/*default*.log
+        Path              /var/log/containers/*.log
         Parser            docker
         DB                /var/log/flb_kube.db
         Mem_Buf_Limit     5MB
@@ -124,4 +124,5 @@ metadata:
     app: fluent-bit-environment
 data:
   FLUENT_LOKI_HOST: 'loki.loki.svc.cluster.local'
+  FLUENT_LOKI_PORT: '3100'
   FLUENT_LOKI_ORG_ID: '1'
