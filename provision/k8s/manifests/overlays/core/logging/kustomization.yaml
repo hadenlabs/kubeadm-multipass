@@ -6,6 +6,7 @@ resources:
   - sa.yaml
   - rbac.yaml
   - configmap.yaml
+  - secrets.yaml
   - ds.yaml
 
 namespace: logging
