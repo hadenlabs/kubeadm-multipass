@@ -8,7 +8,7 @@ metadata:
 data:
   fluent-bit.conf: |
     [SERVICE]
-        Flush         5
+        Flush         3
         Log_Level     info
         Daemon        off
         Parsers_File  parsers.conf
@@ -35,12 +35,25 @@ data:
     [FILTER]
         Name                kubernetes
         Match               kube.*
-        Merge_Log           On
-        Merge_Log_Key       data
-        K8S-Logging.Parser  On
-        K8S-Logging.Exclude On
-        Keep_Log            On
-        Annotations         On
+        Kube_URL            https://kubernetes.default.svc.cluster.local:443
+        Merge_Log           Off
+        # Merge_Log_Key       data
+        # Keep_Log            On
+        Merge_Log_Key       log_processed
+        K8S-Logging.Parser  Off
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+    # Remove useless fields
+    [FILTER]
+        Name record_modifier
+        Match kube.*
+        Remove_key kubernetes.container_hash
+        Remove_key kubernetes.container_image
+        Remove_key kubernetes.pod_id
+        Remove_key kubernetes.pod_name
+        Remove_key kubernetes.docker_id
+        Remove_key kubernetes.host
   output-file.conf: |
     [OUTPUT]
         Name      file
@@ -57,8 +70,9 @@ data:
         http_passwd             ${FLUENT_LOKI_PASS}
         tenant_id               ${FLUENT_LOKI_ORG_ID}
         match                   *
-        labels                  job=fluentbit, pod=$kubernetes['pod_name'], app=$kubernetes['labels']['app'], namespace=$kubernetes['namespace_name'], environment=$kubernetes['labels']['environment']
+        labels                  job=fluentbit, pod=$kubernetes['pod_name'], app=$kubernetes['container_name'], namespace=$kubernetes['namespace_name'], environment=$kubernetes['labels']['environment']
         label_keys              $stream
+        remove_keys             kubernetes
         auto_kubernetes_labels  off
   parsers.conf: |
     [PARSER]
