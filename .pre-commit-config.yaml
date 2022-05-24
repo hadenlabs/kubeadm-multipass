@@ -22,7 +22,7 @@ repos:
         args:
           - --config=.ci/linters/.commitlintrc.json
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.2.0
     hooks:
       - id: detect-private-key
         files: ^(?!\.?git-crypt)
@@ -65,7 +65,6 @@ repos:
         args:
           - --exclude=SC1072,SC1073,SC2068
       - id: validate-toml
-      - id: todocheck
       - id: gitleaks
         args:
           - --path=.
@@ -75,14 +74,14 @@ repos:
         args:
           - --config=.ci/linters/.hadolint.yaml
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: '2.0.975'
+    rev: '2.0.1161'
     hooks:
       - id: checkov
         args:
           - --config-file=.ci/linters/checkov.yml
 
   - repo: https://github.com/stackrox/kube-linter
-    rev: 0.2.5
+    rev: 0.3.0
     hooks:
       - id: kube-linter
         name: kube-linter
