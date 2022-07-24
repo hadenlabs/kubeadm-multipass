@@ -100,12 +100,13 @@ tasks:
       - task: check
     cmds:
       - cmd: mkcert '*.k8s.local'
-      - cmd: mkdir -p {{.KEYBASE_PROJECT_PATH}}/keys/
-      - cmd: mv _wildcard.k8s.local.pem {{.KEYBASE_PROJECT_PATH}}/keys/
-      - cmd: mv _wildcard.k8s.local-key.pem {{.KEYBASE_PROJECT_PATH}}/keys/
+      - cmd: mkcert -install
+      - cmd: mkdir -p {{.K8S_BUILD_PATH}}/keys/
+      - cmd: mv _wildcard.k8s.local.pem {{.K8S_BUILD_PATH}}/keys/
+      - cmd: mv _wildcard.k8s.local-key.pem {{.K8S_BUILD_PATH}}/keys/
     status:
-      - test -f {{.KEYBASE_PROJECT_PATH}}/keys/_wildcard.k8s.local.pem
-      - test -f {{.KEYBASE_PROJECT_PATH}}/keys/_wildcard.k8s.local-key.pem
+      - test -f {{.K8S_BUILD_PATH}}/keys/_wildcard.k8s.local.pem
+      - test -f {{.K8S_BUILD_PATH}}/keys/_wildcard.k8s.local-key.pem
 
   launch:traefik:
     desc: make traefik.
