@@ -4,4 +4,5 @@
 task setup
 task multipass:launch:k8s:master
 task multipass:launch:k8s:node
+task multipass:make:certificates
 ```
