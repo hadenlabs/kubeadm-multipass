@@ -52,6 +52,10 @@ tasks:
           MULTIPASS_LAUNCH_NAME: k8s-master
           MULTIPASS_CLOUD_INIT_FILE: provision/multipass/kubernetes/master.yaml
           MULTIPASS_ARGS: -c 2 -m 2G --disk 20G
+      - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo kubeadm config images pull'
+      - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo kubeadm init --pod-network-cidr=10.1.0.0/16'
+      - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo systemctl restart kubelet'
+      - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo systemctl restart containerd'
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo cat /etc/kubernetes/admin.conf' > {{.KUBECONFIG}}
         vars:
           MULTIPASS_LAUNCH_NAME: k8s-master
