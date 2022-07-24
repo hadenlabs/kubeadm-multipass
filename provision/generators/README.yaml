@@ -56,13 +56,8 @@ description: |-
 
   kubeadm-multipass for project
 
-# How to use this project
-usage: |-
-  ```bash
-  task setup
-  task multipass:launch:k8s:master
-  task multipass:launch:k8s:node
-  ```
+usages:
+  - docs/usage.md
 
 examples:
   - 'docs/examples/common.md'

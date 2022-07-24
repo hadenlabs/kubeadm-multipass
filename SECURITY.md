@@ -4,7 +4,7 @@
 
 <!-- Label: KubeadmMultipass -->
 <!-- Label: Security -->
-<!-- Include: docs/disclaimer.md -->
+<!-- Include: disclaimer.md -->
 <!-- Include: ac:toc -->
 
 # Security Policy
