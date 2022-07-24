@@ -32,6 +32,8 @@ env:
     sh: echo build
   K8S_BUILD_PATH:
     sh: echo {{.BUILD_PATH}}/k8s
+  K8S_BUILD_KEYS_PATH:
+    sh: echo {{.K8S_BUILD_PATH}}/keys
   KUBECONFIG:
     sh: echo {{.K8S_BUILD_PATH}}/kubeconfig.yaml
   MOUNT_PATH_K8S_LOCAL:

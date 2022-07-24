@@ -101,12 +101,12 @@ tasks:
     cmds:
       - cmd: mkcert '*.k8s.local'
       - cmd: mkcert -install
-      - cmd: mkdir -p {{.K8S_BUILD_PATH}}/keys/
-      - cmd: mv _wildcard.k8s.local.pem {{.K8S_BUILD_PATH}}/keys/
-      - cmd: mv _wildcard.k8s.local-key.pem {{.K8S_BUILD_PATH}}/keys/
+      - cmd: mkdir -p {{.K8S_BUILD_KEYS_PATH}}/
+      - cmd: mv _wildcard.k8s.local.pem {{.K8S_BUILD_KEYS_PATH}}/
+      - cmd: mv _wildcard.k8s.local-key.pem {{.K8S_BUILD_KEYS_PATH}}/
     status:
-      - test -f {{.K8S_BUILD_PATH}}/keys/_wildcard.k8s.local.pem
-      - test -f {{.K8S_BUILD_PATH}}/keys/_wildcard.k8s.local-key.pem
+      - test -f {{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local.pem
+      - test -f {{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local-key.pem
 
   launch:traefik:
     desc: make traefik.
@@ -115,5 +115,5 @@ tasks:
       - task: check
     cmds:
       - task: make:certificates
-      # - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl create secret tls traefik-tls-cert --key={{.KEYBASE_PROJECT_PATH}}/keys/_wildcard.k8s.local-key.pem --cert={{.KEYBASE_PROJECT_PATH}}/keys/_wildcard.k8s.local.pem -n core
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl create secret tls traefik-tls-cert --key={{.K8S_BUILD_KEYS_PATH}}/keys/_wildcard.k8s.local-key.pem --cert={{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local.pem -n core
       - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f provision/k8s/manifests/overlays/core/traefik/crd.yaml
