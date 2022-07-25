@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: crossplane
+  labels:
+    kubernetes.io/metadata.name: crossplane
+    app: crossplane
+spec:
+  finalizers:
+    - kubernetes

@@ -6,5 +6,6 @@ task multipass:launch:k8s:master
 task multipass:launch:k8s:node
 task multipass:make:certificates
 task multipass:launch:traefik
-task k8s:apply
+task crossplane:apply
+task k8s:apply:all
 ```
