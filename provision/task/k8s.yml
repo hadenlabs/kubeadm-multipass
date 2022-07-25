@@ -23,9 +23,27 @@ tasks:
         msg: 'Please Install kubectl'
 
   apply:
-    desc: launch multipass.
+    desc: apply kubectl.
     run: once
     deps:
       - task: check
     cmds:
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -k provision/k8s/manifests/overlays/core
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -k {{.MANIFEST_PATH}}
+
+  apply:all:
+    desc: apply kubectl all.
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: apply:core
+
+  apply:core:
+    desc: apply kubectl core.
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: apply
+        vars:
+          MANIFEST_PATH: provision/k8s/manifests/overlays/core

@@ -136,4 +136,4 @@ tasks:
             namespace: traefik
           type: kubernetes.io/tls
           EOF
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f provision/k8s/manifests/overlays/core/traefik/crd.yaml -n traefik
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f {{.K8S_PROVISION_PATH}}/overlays/core/traefik/crd.yaml -n traefik
