@@ -13,6 +13,7 @@ includes:
   sonar: ./provision/task/sonar.yml
   diagrams: ./provision/diagrams/Taskfile.yml
   multipass: ./provision/task/multipass.yml
+  k8s: ./provision/task/k8s.yml
 
 env:
   DOCKER:

@@ -115,5 +115,25 @@ tasks:
       - task: check
     cmds:
       - task: make:certificates
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl create secret tls traefik-tls-cert --key={{.K8S_BUILD_KEYS_PATH}}/keys/_wildcard.k8s.local-key.pem --cert={{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local.pem -n core
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f provision/k8s/manifests/overlays/core/traefik/crd.yaml
+      - cmd: |
+          cat <<EOF | KUBECONFIG={{.KUBECONFIG}} kubectl apply -f -
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: traefik
+          EOF
+      - cmd: |
+          export TLS_CRT=$(cat {{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local.pem | base64)
+          export TLS_KEY=$(cat {{.K8S_BUILD_KEYS_PATH}}/_wildcard.k8s.local-key.pem | base64)
+          cat <<EOF | KUBECONFIG={{.KUBECONFIG}} kubectl apply -f -
+          apiVersion: v1
+          kind: Secret
+          data:
+            tls.crt: $TLS_CRT
+            tls.key: $TLS_KEY
+          metadata:
+            name: traefik-tls-cert
+            namespace: traefik
+          type: kubernetes.io/tls
+          EOF
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f provision/k8s/manifests/overlays/core/traefik/crd.yaml -n traefik
