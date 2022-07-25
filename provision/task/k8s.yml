@@ -1,0 +1,31 @@
+version: '3'
+
+tasks:
+  check:
+    desc: Exist multipass and dependences
+    run: once
+    deps:
+      - task: check:multipass
+      - task: check:kubectl
+
+  check:multipass:
+    desc: Exist multipass
+    run: once
+    preconditions:
+      - sh: command -v multipass
+        msg: 'Please Install multipass'
+
+  check:kubectl:
+    desc: Exist kubectl
+    run: once
+    preconditions:
+      - sh: command -v kubectl
+        msg: 'Please Install kubectl'
+
+  apply:
+    desc: launch multipass.
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -k provision/k8s/manifests/overlays/core
