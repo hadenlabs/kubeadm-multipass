@@ -16,11 +16,6 @@ packages:
   - dpkg-dev
   - software-properties-common
 
-manage_resolv_conf: true
-
-resolv_conf:
-  nameservers: ['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1']
-
 #cloud-config
 package_update: true
 
