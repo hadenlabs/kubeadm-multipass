@@ -29,6 +29,19 @@ This is a list of plugins that need to be installed previously to enjoy all the 
 - [python](https://www.python.org)
 - [taskfile](https://github.com/go-task/task)
 
+## Usage
+
+# How to use this project
+
+```bash
+task setup
+task multipass:launch:k8s:master
+task multipass:launch:k8s:node
+task multipass:make:certificates
+task multipass:launch:traefik
+task k8s:apply
+```
+
 ## Examples
 
 <!-- Space: Projects -->
