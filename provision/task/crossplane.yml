@@ -1,0 +1,42 @@
+version: '3'
+
+tasks:
+  check:
+    desc: Exist crossplane and dependences
+    run: once
+    deps:
+      - task: check:kubectl
+      - task: check:helm
+
+  check:helm:
+    desc: Exist helm
+    run: once
+    preconditions:
+      - sh: command -v helm
+        msg: 'Please Install helm'
+
+  check:kubectl:
+    desc: Exist kubectl
+    run: once
+    preconditions:
+      - sh: command -v kubectl
+        msg: 'Please Install kubectl'
+
+  apply:
+    desc: make install crossplane.
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - cmd: |
+          cat <<EOF | KUBECONFIG={{.KUBECONFIG}} kubectl apply -f -
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: crossplane
+          EOF
+
+      - cmd: helm repo add crossplane https://charts.crossplane.io/stable
+      - cmd: helm repo update
+      - cmd: helm install crossplane --namespace crossplane crossplane-stable/crossplane
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -k {{.K8S_PROVISION_PATH}}/overlays/core/crossplane
