@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - providers.yaml
+  - providerconfig.yaml
+  - secrets.yaml
 
 namespace: crossplane
 # helmCharts:
