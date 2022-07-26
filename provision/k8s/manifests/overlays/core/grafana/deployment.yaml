@@ -31,6 +31,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: grafana-config
+            - secretRef:
+                name: grafana-secret
           volumeMounts:
             - name: grafana-storage
               mountPath: /var/lib/grafana
