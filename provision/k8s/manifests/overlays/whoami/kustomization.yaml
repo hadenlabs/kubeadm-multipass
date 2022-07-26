@@ -2,9 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-  - whoami-ingress.yaml
-  - whoami-deploy.yaml
-  - whoami-svc.yaml
+  - ingress.yaml
+  - deployment.yaml
+  - svc.yaml
+  - grafana.yaml
 
 commonLabels:
   env: local
