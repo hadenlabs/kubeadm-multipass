@@ -35,12 +35,8 @@ metadata:
     app: grafana
 data:
   GF_SERVER_ROOT_URL: 'https://grafana.k8s.local'
-  GF_SECURITY_ADMIN_USER: 'admin'
-  GF_SECURITY_ADMIN_PASSWORD: 'password'
   GF_USERS_ALLOW_SIGN_UP: 'False'
   GF_LOG_FILTERS: rendering:debug
 
   # loki
   LOKI_ORG_ID: '1'
-  LOKI_USER: 'loki'
-  LOKI_PASSWORD: 'v2ZL7Xun7UmA'
