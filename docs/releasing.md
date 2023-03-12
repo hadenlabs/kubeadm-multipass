@@ -1,7 +1,6 @@
 <!-- Space: Projects -->
 <!-- Parent: KubeadmMultipass -->
 <!-- Title: Releasing KubeadmMultipass -->
-
 <!-- Label: KubeadmMultipass -->
 <!-- Label: Project -->
 <!-- Label: Releasing -->
