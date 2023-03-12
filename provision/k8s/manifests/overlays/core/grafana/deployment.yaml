@@ -23,11 +23,11 @@ spec:
               containerPort: 3000
           resources:
             limits:
-              memory: '1Gi'
-              cpu: '1000m'
+              memory: "1Gi"
+              cpu: "1000m"
             requests:
               memory: 500M
-              cpu: '500m'
+              cpu: "500m"
           envFrom:
             - configMapRef:
                 name: grafana-config
@@ -43,7 +43,7 @@ spec:
       initContainers:
         - name: change-ownership-container
           image: busybox
-          command: ['/bin/chown', '-R', '472:472', '/var/lib/grafana/']
+          command: ["/bin/chown", "-R", "472:472", "/var/lib/grafana/"]
           securityContext:
             runAsUser: 0
             privileged: true

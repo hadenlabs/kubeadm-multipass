@@ -137,6 +137,6 @@ metadata:
   labels:
     app: fluent-bit-environment
 data:
-  FLUENT_LOKI_HOST: 'loki.loki.svc.cluster.local'
-  FLUENT_LOKI_PORT: '3100'
-  FLUENT_LOKI_ORG_ID: '1'
+  FLUENT_LOKI_HOST: "loki.loki.svc.cluster.local"
+  FLUENT_LOKI_PORT: "3100"
+  FLUENT_LOKI_ORG_ID: "1"

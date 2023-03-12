@@ -1,7 +1,6 @@
 <!-- Space: Projects -->
 <!-- Parent: KubeadmMultipass -->
 <!-- Title: Roadmap KubeadmMultipass -->
-
 <!-- Label: Roadmap -->
 <!-- Include: disclaimer.md -->
 <!-- Include: ac:toc -->

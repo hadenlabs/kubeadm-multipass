@@ -5,7 +5,7 @@ metadata:
   name: grafana-storage
   labels:
     app: grafana
-    path: 'grafana-storage'
+    path: "grafana-storage"
 spec:
   storageClassName: manual
   capacity:
@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: '/data/grafana/lib'
+    path: "/data/grafana/lib"
 
 ---
 kind: PersistentVolume
@@ -22,7 +22,7 @@ metadata:
   name: grafana-datasources
   labels:
     app: grafana
-    path: 'grafana-datasources'
+    path: "grafana-datasources"
 spec:
   storageClassName: manual
   capacity:
@@ -30,4 +30,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: '/data/grafana/etc'
+    path: "/data/grafana/etc"

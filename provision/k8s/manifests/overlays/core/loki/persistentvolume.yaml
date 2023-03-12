@@ -5,7 +5,7 @@ metadata:
   name: loki-storage
   labels:
     app: loki
-    path: 'loki-storage'
+    path: "loki-storage"
 spec:
   storageClassName: manual
   capacity:
@@ -13,4 +13,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: '/data/loki'
+    path: "/data/loki"

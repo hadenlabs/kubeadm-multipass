@@ -1,10 +1,9 @@
 <!-- Space: Projects -->
 <!-- Parent: KubeadmMultipass -->
 <!-- Title: Security KubeadmMultipass -->
-
 <!-- Label: KubeadmMultipass -->
 <!-- Label: Security -->
-<!-- Include: disclaimer.md -->
+<!-- Include: docs/disclaimer.md -->
 <!-- Include: ac:toc -->
 
 # Security Policy

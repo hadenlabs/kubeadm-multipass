@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 tasks:
   check:
@@ -13,14 +13,14 @@ tasks:
     run: once
     preconditions:
       - sh: command -v multipass
-        msg: 'Please Install multipass'
+        msg: "Please Install multipass"
 
   check:kubectl:
     desc: Exist kubectl
     run: once
     preconditions:
       - sh: command -v kubectl
-        msg: 'Please Install kubectl'
+        msg: "Please Install kubectl"
 
   apply:
     desc: apply kubectl.
