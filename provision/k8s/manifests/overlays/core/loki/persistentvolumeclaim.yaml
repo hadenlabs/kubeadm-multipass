@@ -13,4 +13,4 @@ spec:
   selector:
     matchLabels:
       app: loki
-      path: 'loki-storage'
+      path: "loki-storage"

@@ -48,12 +48,11 @@ task k8s:apply:all
 <!-- Space: Projects -->
 <!-- Parent: KubeadmMultipass -->
 <!-- Title: Examples KubeadmMultipass -->
-
 <!-- Label: Examples -->
 <!-- Include: ./../disclaimer.md -->
 <!-- Include: ac:toc -->
 
-### common
+### Common
 
 ## Help
 
@@ -82,7 +81,7 @@ Using the given version number of `MAJOR.MINOR.PATCH`, we apply the following co
 
 ## Copyright
 
-Copyright © 2018-2022 [Hadenlabs](https://hadenlabs.com)
+Copyright © 2018-2023 [Hadenlabs](https://hadenlabs.com)
 
 ## Trademarks
 

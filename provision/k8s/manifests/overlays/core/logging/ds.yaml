@@ -8,7 +8,7 @@ metadata:
     k8s-app: fluent-bit-logging
     name: fluent-bit
     version: v1
-    kubernetes.io/cluster-service: 'true'
+    kubernetes.io/cluster-service: "true"
 spec:
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
         name: fluent-bit
         k8s-app: fluent-bit-logging
         version: v1
-        kubernetes.io/cluster-service: 'true'
+        kubernetes.io/cluster-service: "true"
     spec:
       serviceAccountName: fluent-bit
       containers:

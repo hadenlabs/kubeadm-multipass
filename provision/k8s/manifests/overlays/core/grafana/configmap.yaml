@@ -34,9 +34,9 @@ metadata:
   labels:
     app: grafana
 data:
-  GF_SERVER_ROOT_URL: 'https://grafana.k8s.local'
-  GF_USERS_ALLOW_SIGN_UP: 'False'
+  GF_SERVER_ROOT_URL: "https://grafana.k8s.local"
+  GF_USERS_ALLOW_SIGN_UP: "False"
   GF_LOG_FILTERS: rendering:debug
 
   # loki
-  LOKI_ORG_ID: '1'
+  LOKI_ORG_ID: "1"

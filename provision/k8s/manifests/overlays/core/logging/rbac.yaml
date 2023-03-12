@@ -4,7 +4,7 @@ kind: ClusterRole
 metadata:
   name: fluent-bit
 rules:
-  - apiGroups: ['']
+  - apiGroups: [""]
     resources:
       - namespaces
       - pods
