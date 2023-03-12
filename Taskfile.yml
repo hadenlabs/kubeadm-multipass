@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 includes:
   changelog: ./provision/task/changelog.yml
@@ -49,23 +49,26 @@ dotenv:
 vars:
   PROJECT_NAME: kubeadm-multipass
   ORGANIZATION: hadenlabs
-  DOCKER_ORGANIZATION: hadenlabs
-  DOCKER_PLATFORMS: linux/amd64,linux/arm64
-  DOCKER_IMAGE_NAME: kubeadm-multipass
+  DOCKER_PLATFORM: linux/amd64
   REVIEWERS: luismayta
-  PYTHON_VERSION: 3.9.2
+  PYTHON_VERSION: 3.10.6
   NODE_VERSION: 16.6.1
-  GIT_IGNORES: python,node,go,zsh,sonar,linux
+  TERRAFORM_VERSION: 1.3.9
+  GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
   GOLANGCI_VERSION: 1.42.0
   README_FILE: README.md
-  GIT_IGNORES_CUSTOM: >-
+  GIT_IGNORES_CUSTOM: |
     bin
     .scannerwork
     .secrets
+    public
     TMP_CHANGELOG.md
     .task
-    *.out
+    .terraform.lock.hcl
     *.lock.hcl
+    *.zip
+    .external_modules
+    vendor
 
 tasks:
   default:
@@ -80,7 +83,7 @@ tasks:
     silent: true
 
   summary:
-    desc: 'Summary information'
+    desc: "Summary information"
     cmds:
       - echo Go available {{.GO}}
       - echo Python available {{.PYTHON}}
@@ -89,7 +92,7 @@ tasks:
     silent: true
 
   check:
-    desc: 'Check all dependencies'
+    desc: "Check all dependencies"
     deps:
       - python:check
       - changelog:check
@@ -113,6 +116,14 @@ tasks:
     desc: Execute prettier files
     cmds:
       - task: prettier:all
+
+  upgrade:
+    run: once
+    desc: Execute upgrade packages
+    cmds:
+      - >-
+        poetry update
+        poetry run pre-commit autoupdate
 
   setup:
     desc: Setup dependences of project
