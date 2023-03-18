@@ -3,7 +3,7 @@ name = "kubeadm-multipass"
 version = "0.0.0"
 description = "kubeadm-multipass"
 authors = ["Luis Mayta <luis@hadenlabs.com>"]
-license = "GPL"
+license = "LGPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -31,11 +31,9 @@ black = "*"
 [tool.poetry.extras]
 docs = ["mkdocs", "mkdocs-material"]
 
-[tool.poetry_bumpversion.file."pyproject.toml"]
-
 [tool.poetry_bumpversion.file."sonar-project.properties"]
-replace = 'sonar.projectVersion = "{new_version}"'
-search = 'sonar.projectVersion = "{current_version}"'
+search = 'sonar.projectVersion={current_version}'
+replace = 'sonar.projectVersion={new_version}'
 
 [tool.black]
 line-length = 120
