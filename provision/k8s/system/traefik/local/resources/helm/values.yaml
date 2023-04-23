@@ -1,0 +1,14 @@
+---
+additionalArguments:
+  - --api=true
+  - --api.dashboard=true
+  - --api.insecure=true
+  - --providers.kubernetesingress=true
+
+logs:
+  general:
+    level: INFO
+
+ports:
+  web:
+    redirectTo: websecure
