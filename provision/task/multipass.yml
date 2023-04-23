@@ -54,18 +54,19 @@ tasks:
           MULTIPASS_ARGS: -c 2 -m 2G --disk 20G
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo kubeadm config images pull'
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo kubeadm init --pod-network-cidr=10.1.0.0/16'
+
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo systemctl restart kubelet'
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo systemctl restart containerd'
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo cat /etc/kubernetes/admin.conf' > {{.KUBECONFIG}}
         vars:
           MULTIPASS_LAUNCH_NAME: k8s-master
+      - cmd: echo "now deploying tigera-operator ...."
+      - cmd: KUBECONFIG={{.KUBECONFIG}} helm repo add projectcalico https://docs.tigera.io/calico/charts
+      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl create namespace tigera-operator
+      - cmd: KUBECONFIG={{.KUBECONFIG}} helm install calico projectcalico/tigera-operator --version v3.24.5 -f provision/k8s/system/calico/resources/helm/values.yaml --namespace tigera-operator
       - cmd: echo "wait ...."
-      - cmd: sleep 50
-      - cmd: echo "now deploying calico ...."
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl apply -f provision/k8s/manifests/overlays/core/calico/crd.yaml
+      - cmd: sleep 60
       - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl get pods -n calico-system
-      - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl taint nodes --all node-role.kubernetes.io/master-
       - cmd: KUBECONFIG={{.KUBECONFIG}} kubectl get nodes -o wide
       - cmd: multipass exec {{.MULTIPASS_LAUNCH_NAME}} -- bash -c 'sudo kubeadm token create --print-join-command' > {{.BUILD_PATH}}/kubeadm_join.sh
         vars:
