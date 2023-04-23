@@ -1,0 +1,12 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: whoami-logs
+spec:
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /data/whoami/logs

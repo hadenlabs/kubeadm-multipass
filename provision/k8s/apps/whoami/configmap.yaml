@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: whoami-env
+data:
+  APP_NAME: "whoami"
