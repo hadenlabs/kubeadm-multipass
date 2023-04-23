@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+spec:
+  template:
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: app
+              containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: environment-variables
+            - configMapRef:
+                name: whoami-env
+          volumeMounts:
+            - name: whoami-logs
+              mountPath: /app/logs
+          resources:
+            requests:
+              memory: "250Mi"
+              cpu: "250m"
+            limits:
+              memory: "500Mi"
+              cpu: "250m"
+      initContainers:
+        - name: make-logs
+          image: busybox
+          command: ["mkdir", "-p", "/app/logs"]
+          securityContext:
+            runAsUser: 0
+            privileged: true
+          volumeMounts:
+            - name: whoami-logs
+              mountPath: /app/logs
+      volumes:
+        - name: whoami-logs
+          persistentVolumeClaim:
+            claimName: whoami-logs
