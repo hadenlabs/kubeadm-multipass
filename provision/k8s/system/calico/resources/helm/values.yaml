@@ -1,0 +1,10 @@
+---
+installation:
+  enabled: true
+  cni:
+    type: Calico
+  calicoNetwork:
+    bgp: Disabled
+    ipPools:
+      - cidr: 10.1.0.0/16
+        encapsulation: VXLAN
