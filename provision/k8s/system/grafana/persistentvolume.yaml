@@ -1,0 +1,33 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: grafana-storage
+  labels:
+    app: grafana
+    path: "grafana-storage"
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/grafana/lib"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: grafana-datasources
+  labels:
+    app: grafana
+    path: "grafana-datasources"
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/grafana/etc"
