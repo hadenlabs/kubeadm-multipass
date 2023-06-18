@@ -1,0 +1,32 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: loki-http
+spec:
+  entryPoints:
+    - http
+  routes:
+    - match: Host(`loki.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: loki
+          port: 3100
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: loki-https
+spec:
+  entryPoints:
+    - https
+  routes:
+    - match: Host(`loki.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: loki
+          port: 3100
+  tls:
+    secretName: traefik-tls-cert
