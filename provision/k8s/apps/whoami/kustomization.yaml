@@ -51,7 +51,6 @@ transformers:
 resources:
   - configmap.yaml
   - secrets.yaml
-  - grafana.yaml
   - persistentvolume.yaml
   - persistentvolumeclaim.yaml
   - deployment.yaml
