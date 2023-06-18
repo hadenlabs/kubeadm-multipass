@@ -1,0 +1,54 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: metallb-system
+
+generatorOptions:
+  immutable: true
+
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: LabelTransformer
+    metadata:
+      name: commonLabelsTransformer
+    labels:
+      kubernetes.io/metadata.name: metallb
+      kubernetes.io/name: metallb
+      kubernetes.io/component: load-balancer
+      kubernetes.io/part-of: load-balancer
+      kubernetes.io/managed-by: kustomize
+      kubernetes.io/stage: system
+      kubernetes.io/owner: hadenlabs
+
+    fieldSpecs:
+    - path: metadata/labels
+      create: true
+    - path: spec/template/metadata/labels
+      create: true
+      kind: Deployment
+    - path: spec/selector/matchLabels
+      create: true
+      kind: Deployment
+    - path: spec/template/metadata/labels
+      create: true
+      kind: DaemonSet
+    - path: spec/selector/matchLabels
+      create: true
+      kind: DaemonSet
+    - path: spec/template/metadata/labels
+      create: true
+      kind: Secrets
+    - path: spec/selector/matchLabels
+      create: true
+      kind: Secrets
+    - path: spec/secretTemplate/labels
+      create: true
+      kind: Certificate
+    - path: spec/selector
+      create: true
+      kind: Service
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/helm
+  - ./resources/configmap.yaml
