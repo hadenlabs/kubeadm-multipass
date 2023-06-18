@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: whoami
 spec:
-  type: LoadBalancer
   ports:
-    - name: http
-      port: 80
+    - port: 80
+      protocol: TCP
+      targetPort: 80
