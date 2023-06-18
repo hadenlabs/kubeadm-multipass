@@ -8,25 +8,60 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8,<3.12"
+boto3 = "^1.26.130"
+requests = "^2.28.2"
+
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.group.dev.dependencies]
-requests = "^2.28.2"
-bridgecrew = "*"
+bumpversion = "*"
+ipdb = "*"
+python-language-server = { extras = ["all"], version = "*" }
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+pymdown-extensions = "*"
 doc8 = "*"
 grip = "*"
-isort = "*"
 mkdocs = "*"
 mkdocs-material = "*"
-mypy = "*"
-parso = "*"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+httpx = "^0.24.1"
+faker = "*"
+mock = "*"
+pytest-mock = "*"
+pytest = "^7.3.0"
+pytest-cov = "^4.0.0"
+pytest-dotenv = "^0.5.2"
+pytest-watcher = "^0.2.6"
+freezegun = "^1.2.2"
+responses = "^0.22.0"
+pytest-asyncio = "^0.20.3"
+PyHamcrest = "*"
+
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
 pre-commit = "*"
-pycodestyle = "*"
-pydocstyle = "*"
-pygments = "*"
-pylint = "*"
-pymdown-extensions = "*"
-pytest = ">=6.2.4"
-black = "*"
+ruff = "^0.0.249"
+types-toml = "^0.10.8.1"
+black = "^23.1.0"
+
+[tool.poetry.group.typing]
+optional = true
+
+[tool.poetry.group.typing.dependencies]
+mypy = "^0.991"
+types-pyyaml = "^6.0.12.2"
+types-requests = "^2.28.11.5"
 
 [tool.poetry.extras]
 docs = ["mkdocs", "mkdocs-material"]
@@ -35,35 +70,21 @@ docs = ["mkdocs", "mkdocs-material"]
 search = 'sonar.projectVersion={current_version}'
 replace = 'sonar.projectVersion={new_version}'
 
+[tool.mypy]
+show_error_codes = true
+ignore_missing_imports = "True"
+disallow_untyped_defs = "True"
+pretty = true
+exclude = ["notebooks"]
+
 [tool.black]
-line-length = 120
+line-length = 90
 
 [tool.bandit]
 skips = ["B101"]
 
 [tool.isort]
 profile = "black"
-
-[tool.mypy]
-python_version = "3.10"
-files = ["."]
-show_error_codes = true
-pretty = true
-#strict = true
-allow_redefinition = true
-disallow_subclassing_any = true
-#disallow_untyped_calls = true
-#disallow_untyped_defs = true
-#disallow_incomplete_defs = true
-no_implicit_optional = true
-local_partial_types = true
-#no_implicit_reexport = true
-strict_equality = true
-warn_redundant_casts = true
-warn_unused_configs = true
-warn_unused_ignores = true
-#warn_return_any = true
-#warn_unreachable = true
 
 [build-system]
 requires = ["poetry-core"]
