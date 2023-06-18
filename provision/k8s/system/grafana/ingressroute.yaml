@@ -1,0 +1,32 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-http
+spec:
+  entryPoints:
+    - http
+  routes:
+    - match: Host(`grafana.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: grafana
+          port: 3000
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-https
+spec:
+  entryPoints:
+    - https
+  routes:
+    - match: Host(`grafana.k8s.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: grafana
+          port: 3000
+  tls:
+    secretName: traefik-tls-cert

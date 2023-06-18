@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+data:
+  datasource.yml: |-
+    apiVersion: 1
+
+    datasources:
+      - name: loki
+        type: loki
+        access: proxy
+        orgId: 1
+        url: http://loki.loki.svc.cluster.local:3100
+        editable: true
+        basicAuth: true
+        basicAuthUser: ${LOKI_USER}
+        jsonData:
+          tlsSkipVerify: true
+          maxLines: 5000
+          httpHeaderName1: X-Scope-OrgID
+        secureJsonData:
+          httpHeaderValue1: ${LOKI_ORG_ID}
+          basicAuthPassword: ${LOKI_PASSWORD}
+        isDefault: true
+        version: 1
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  labels:
+    app: grafana
+data:
+  GF_SERVER_ROOT_URL: "https://grafana.k8s.local"
+  GF_USERS_ALLOW_SIGN_UP: "False"
+  GF_LOG_FILTERS: rendering:debug
+
+  # loki
+  LOKI_ORG_ID: "1"
