@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loki
+  template:
+    metadata:
+      name: loki
+      labels:
+        app: loki
+    spec:
+      securityContext:
+        fsGroup: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: loki
+          image: grafana/loki:2.4.2
+          args:
+            - -config.file=/etc/loki/loki.yml
+          ports:
+            - name: loki
+              containerPort: 3100
+          volumeMounts:
+            - name: loki-config
+              mountPath: /etc/loki/loki.yml
+              subPath: loki.yml
+            - name: loki-storage
+              mountPath: /loki
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+            requests:
+              memory: 500M
+              cpu: "500m"
+      initContainers:
+        - name: fix-permissions
+          image: busybox:latest
+          securityContext:
+            privileged: true
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          command:
+            - sh
+            - -c
+            - >-
+              id;
+              ls -la /loki/;
+              mkdir -p /loki;
+              chown -R 10001:10001 /loki;
+          volumeMounts:
+            - name: loki-storage
+              mountPath: /loki
+      volumes:
+        - name: loki-config
+          configMap:
+            name: loki-config
+        - name: loki-storage
+          persistentVolumeClaim:
+            claimName: loki-storage
