@@ -1,0 +1,142 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  labels:
+    k8s-app: fluent-bit
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         3
+        Log_Level     info
+        Daemon        off
+        Parsers_File  parsers.conf
+        HTTP_Server   On
+        HTTP_Listen   0.0.0.0
+        HTTP_Port     2020
+    @INCLUDE input-kubernetes.conf
+    @INCLUDE filter-kubernetes.conf
+    @INCLUDE output-file.conf
+    @INCLUDE output-loki.conf
+
+  input-kubernetes.conf: |
+    [INPUT]
+        Name              tail
+        Tag               kube.*
+        Path              /var/log/containers/*.log
+        Parser            docker
+        DB                /var/log/flb_kube.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+        Exclude_Path      *sender-service*
+  filter-kubernetes.conf: |
+    [FILTER]
+        Name                kubernetes
+        Match               kube.*
+        Kube_URL            https://kubernetes.default.svc.cluster.local:443
+        Merge_Log           Off
+        # Merge_Log_Key       data
+        # Keep_Log            On
+        Merge_Log_Key       log_processed
+        K8S-Logging.Parser  Off
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+    # Remove useless fields
+    [FILTER]
+        Name record_modifier
+        Match kube.*
+        Remove_key kubernetes.container_hash
+        Remove_key kubernetes.container_image
+        Remove_key kubernetes.pod_id
+        Remove_key kubernetes.pod_name
+        Remove_key kubernetes.docker_id
+        Remove_key kubernetes.host
+  output-file.conf: |
+    [OUTPUT]
+        Name      file
+        Path      /var/log
+        File      output.txt
+        Format    plain
+        Match     *
+  output-loki.conf: |
+    [OUTPUT]
+        name                    loki
+        host                    ${FLUENT_LOKI_HOST}
+        port                    ${FLUENT_LOKI_PORT}
+        http_user               ${FLUENT_LOKI_USER}
+        http_passwd             ${FLUENT_LOKI_PASS}
+        tenant_id               ${FLUENT_LOKI_ORG_ID}
+        match                   *
+        labels                  job=fluentbit, pod=$kubernetes['pod_name'], app=$kubernetes['container_name'], namespace=$kubernetes['namespace_name'], environment=$kubernetes['labels']['environment']
+        label_keys              $stream
+        remove_keys             kubernetes
+        auto_kubernetes_labels  off
+  parsers.conf: |
+    [PARSER]
+        Name   apache
+        Format regex
+        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+    [PARSER]
+        Name   apache2
+        Format regex
+        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+    [PARSER]
+        Name   apache_error
+        Format regex
+        Regex  ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<message>.*)$
+    [PARSER]
+        Name   nginx
+        Format regex
+        Regex ^(?<remote>[^ ]*) (?<host>[^ ]*) (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+    [PARSER]
+        Name   json
+        Format json
+        Time_Key time
+        Time_Format %d/%b/%Y:%H:%M:%S %z
+    [PARSER]
+        Name        docker
+        Format      json
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep   On
+    [PARSER]
+        Name        syslog
+        Format      regex
+        Regex       ^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$
+        Time_Key    time
+        Time_Format %b %d %H:%M:%S
+    [PARSER]
+        Name        appservices
+        Format      regex
+        Regex       ^\[(?<time>[\d\-TZ\:\,\+]*)\] \[(?<thread>.*)\] (?<level>[\w]*) (?<logger>[\w\d\.]*) - (?<message>.*)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S
+        Time_Keep   On
+    [PARSER]
+        Name        appservices-multiline-first
+        Format      regex
+        Regex       ^\[(?<time>[\d\-TZ\:\,\+]*)\] \[(?<thread>.*)\] (?<level>[\w]*) (?<logger>[\w\d\.]*) - (?<message>.*)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S
+        Time_Keep   On
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-environment
+  labels:
+    app: fluent-bit-environment
+data:
+  FLUENT_LOKI_HOST: "loki.loki.svc.cluster.local"
+  FLUENT_LOKI_PORT: "3100"
+  FLUENT_LOKI_ORG_ID: "1"
