@@ -8,3 +8,6 @@ installation:
     ipPools:
       - cidr: 10.1.0.0/16
         encapsulation: VXLAN
+        blockSize: 26
+        natOutgoing: Enabled
+        nodeSelector: all()
