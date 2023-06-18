@@ -3,7 +3,6 @@ additionalArguments:
   - --api=true
   - --api.dashboard=true
   - --api.insecure=true
-  - --providers.kubernetesingress=true
 
 logs:
   general:
@@ -12,3 +11,8 @@ logs:
 ports:
   web:
     redirectTo: websecure
+
+service:
+  enabled: true
+  single: true
+  type: LoadBalancer
